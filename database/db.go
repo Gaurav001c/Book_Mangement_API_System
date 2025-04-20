@@ -27,10 +27,8 @@ func ConnectDB() {
 		log.Fatalf("Failed to connect to the database: %v", err)
 	}
 
-	// Assign to global DB
 	DB = db
 
-	// Auto migrate your models
 	err = DB.AutoMigrate(&models.User{}, &models.Category{}, &models.Book{})
 	if err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)

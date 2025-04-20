@@ -10,7 +10,11 @@ import (
 
 func GetCategories(c echo.Context) error {
 	var categories []models.Category
-	database.DB.Find(&categories)
+	if err := database.DB.Preload("Books").Find(&categories).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{
+			"error": "Failed to fetch categories with books",
+		})
+	}
 	return c.JSON(http.StatusOK, categories)
 }
 
